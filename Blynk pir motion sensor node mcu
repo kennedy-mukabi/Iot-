@@ -1,0 +1,55 @@
+#define BLYNK_PRINT Serial
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+
+// You should get Auth Token in the Blynk App.
+char auth[] = "Your auth token";
+
+// Your WiFi credentials.
+// Set password to "" for open networks.
+
+char ssid[] = "your wifi SSID";
+
+char pass[] = "your password";
+
+#define ledPin D0
+
+#define pirPin D1 // Input for HC-S501
+
+int pirValue; // Place to store read PIR Value
+
+void setup()
+
+{
+
+  Blynk.begin(auth, ssid, pass);
+
+  pinMode(ledPin, OUTPUT);
+
+  pinMode(pirPin, INPUT);
+
+  digitalWrite(ledPin, LOW);
+
+}
+
+
+void loop()
+
+{
+
+  pirValue = digitalRead(pirPin);
+
+  if (pirValue==1)
+
+  {
+
+       Blynk.notify("T==> Motion detected");  
+
+  }
+
+  digitalWrite(ledPin, pirValue);
+
+
+  Blynk.run();
+}
